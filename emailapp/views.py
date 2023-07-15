@@ -2,18 +2,19 @@ from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from .forms import EmailForm
 
+
 def send_email(request):
     if request.method == 'POST':
         form = EmailForm(request.POST)
         if form.is_valid():
-            sender = form.cleaned_data['sender']
+            name = form.cleaned_data['name']
             recipient = form.cleaned_data['recipient']
             message = form.cleaned_data['message']
             
             send_mail(
                 'Subject',
                 message,
-                sender,
+                name + ' <sender@example.com>',  # Replace 'sender@example.com' with your actual email address
                 [recipient],
                 fail_silently=False,
             )
